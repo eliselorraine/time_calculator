@@ -1,5 +1,3 @@
-import re
-
 def add_time(start, duration, day=None):
 
     start_hr = int(start.split(':')[0])
@@ -12,23 +10,18 @@ def add_time(start, duration, day=None):
     duration_min = int(duration.split(':')[1])
 
     if day is not None and duration_hr >= 24 :
-        print(day)
         days_of_week = ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
-        # look up what day it is in the dictionary. remember case insensitivity
         
         for d in days_of_week :
-            d = d.lower()
-            param_day = day.lower()
-            index = d.find(param_day)
-            print(index)
-        # use the lookup to grab the index of the day it is
-        # add that index to the days passed. 
-
-        day_n = int(duration_hr / 24)
+            lowercase = d.lower()
+            param = str(day).lower()
+            if lowercase == param :
+                i = days_of_week.index(d)
+            continue
+        day_n = int(duration_hr / 24) + i
         while day_n > 7 :
             day_n -= 7
         new_day = days_of_week[day_n]
-        print(new_day)
 
     new_time_hr = start_hr + duration_hr
     new_time_min = start_min + duration_min
@@ -51,8 +44,12 @@ def add_time(start, duration, day=None):
             new_time_hr -= 12
         if new_time_min < 10:
             new_time_min = f"0{new_time_min}"
-        if n > 1 :
+        if n > 1 and day is None :
             return f"{new_time_hr}:{new_time_min} {time_of_day} ({n} days later)"
+        elif n > 1 and day is not None :
+            return f"{new_time_hr}:{new_time_min} {time_of_day}, {new_day} ({n} days later)"
+        elif day is not None :
+            return f"{new_time_hr}:{new_time_min} {time_of_day}, {new_day} (next day)"
         return f"{new_time_hr}:{new_time_min} {time_of_day} (next day)"
 
 
@@ -76,6 +73,9 @@ def add_time(start, duration, day=None):
 
     if day is not None and next_day != True :
         new_time = f"{new_time_hr}:{str_new_time_min} {time_of_day}, {new_day}"
+    elif day is not None and next_day :
+        print('here')
+        new_time = f"{new_time_hr}:{str_new_time_min} {time_of_day}, {new_day} (next day)"
     elif day is None and next_day :
         new_time = f"{new_time_hr}:{str_new_time_min} {time_of_day} (next day)"
     else :
