@@ -4,7 +4,7 @@ def add_time(start, duration, day=None):
     # if the result is more than one day later, it should show "n days later" after the time
 
     # maybe we could convert to military time and then go back? 
-    
+
     start_hr = int(start.split(':')[0])
     start_min = int(start.split(':')[1].split(' ')[0])
     time_of_day = start.split(' ')[1]
@@ -13,8 +13,6 @@ def add_time(start, duration, day=None):
     duration_hr = int(duration.split(':')[0])
     duration_min = int(duration.split(':')[1])
 
-        
-
     new_time_hr = start_hr + duration_hr
     new_time_min = start_min + duration_min
 
@@ -22,12 +20,22 @@ def add_time(start, duration, day=None):
         new_time_min -= 60
         new_time_hr += 1
 
-    if duration_hr >= 24 and duration_hr < 36:
-        next_day = True
-        while new_time_hr > 12 :
+    if duration_hr >= 24:
+        n = -1
+        while new_time_hr >= 12 :
+            if time_of_day == 'AM':
+                time_of_day = 'PM'
+                n += 1
+            else :
+                n += 1
+                time_of_day = 'AM'
+            if new_time_hr == 12 :
+                break
             new_time_hr -= 12
         if new_time_min < 10:
             new_time_min = f"0{new_time_min}"
+        if n > 1 :
+            return f"{new_time_hr}:{new_time_min} {time_of_day} ({n} days later)"
         return f"{new_time_hr}:{new_time_min} {time_of_day} (next day)"
 
 
