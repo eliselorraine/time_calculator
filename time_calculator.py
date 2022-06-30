@@ -76,7 +76,6 @@ def add_time(start, duration, day=None):
     if day is not None and next_day != True :
         new_time = f"{new_time_hr}:{str_new_time_min} {time_of_day}, {new_day}"
     elif day is not None and next_day :
-        print('here')
         new_time = f"{new_time_hr}:{str_new_time_min} {time_of_day}, {new_day} (next day)"
     elif day is None and next_day :
         new_time = f"{new_time_hr}:{str_new_time_min} {time_of_day} (next day)"
