@@ -19,7 +19,9 @@ def add_time(start, duration, day=None):
                 i = days_of_week.index(d)
             continue
         day_n = int(duration_hr / 24) + i
-        while day_n > 7 :
+        if duration_hr > 24 or duration_hr == 24 and duration_min > 0: 
+            day_n += 1
+        while day_n >= 7 :
             day_n -= 7
         new_day = days_of_week[day_n]
 
